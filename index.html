@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A Message from Paul</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #fdf6ec;
+      --warm: #f5e6d0;
+      --ink: #2c1a0e;
+      --muted: #8a6a52;
+      --accent: #c0773a;
+      --envelope-body: #e8c99a;
+      --envelope-flap: #d4a96a;
+      --envelope-inner: #f7efe0;
+      --paper: #fefcf7;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Playfair Display', serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow: hidden;
+    }
+
+    /* ───────── PAGE SYSTEM ───────── */
+    .page {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .page.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(30px);
+    }
+
+    /* ───────── PAGE 1 ───────── */
+    #page1 {
+      background: radial-gradient(ellipse at 60% 40%, #fff8ee 0%, #f5e6d0 60%, #e8d0b0 100%);
+      flex-direction: column;
+      gap: 0;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .grain-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 150px;
+      z-index: 100;
+    }
+
+    .p1-hey {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(4rem, 12vw, 9rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeDown 0.9s ease 0.3s forwards;
+      letter-spacing: -0.02em;
+    }
+
+    .p1-from {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 3.5vw, 2rem);
+      color: var(--muted);
+      margin-top: 0.4rem;
+      opacity: 0;
+      animation: fadeDown 0.9s ease 0.7s forwards;
+      letter-spacing: 0.04em;
+    }
+
+    .p1-divider {
+      width: 60px;
+      height: 2px;
+      background: var(--accent);
+      margin: 2rem auto;
+      opacity: 0;
+      animation: fadeDown 0.7s ease 1s forwards;
+    }
+
+    .p1-body {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.2rem, 3vw, 1.7rem);
+      color: var(--ink);
+      max-width: 480px;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeDown 0.9s ease 1.2s forwards;
+    }
+
+    .p1-btn {
+      margin-top: 2.5rem;
+      padding: 0.85rem 2.8rem;
+      background: var(--ink);
+      color: var(--cream);
+      font-family: 'Caveat', cursive;
+      font-size: 1.3rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      opacity: 0;
+      animation: fadeDown 0.9s ease 1.6s forwards;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+      box-shadow: 0 4px 20px rgba(44,26,14,0.15);
+    }
+    .p1-btn:hover {
+      background: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(192,119,58,0.35);
+    }
+    .p1-btn:active { transform: translateY(0); }
+
+    @keyframes fadeDown {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ───────── PAGE 2 ───────── */
+    #page2 {
+      background: radial-gradient(ellipse at 40% 60%, #fdf6ec 0%, #f0e0c8 70%, #e0ccb0 100%);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .p2-emoji {
+      font-size: clamp(4rem, 12vw, 7rem);
+      opacity: 0;
+      animation: emojiPop 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.2s forwards;
+      filter: drop-shadow(0 6px 18px rgba(44,26,14,0.18));
+    }
+    @keyframes emojiPop {
+      from { opacity: 0; transform: scale(0.5); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .p2-hint {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      color: var(--muted);
+      opacity: 0;
+      animation: fadeDown 0.6s ease 0.8s forwards;
+      letter-spacing: 0.04em;
+    }
+
+    /* ───────── ENVELOPE SCENE ───────── */
+    .envelope-scene {
+      position: relative;
+      width: 340px;
+      height: 230px;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeDown 0.8s ease 1s forwards;
+    }
+    .envelope-scene:hover .env-body { filter: drop-shadow(0 10px 30px rgba(44,26,14,0.28)); }
+
+    /* Envelope body */
+    .env-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 340px;
+      height: 200px;
+      background: var(--envelope-body);
+      border-radius: 4px 4px 10px 10px;
+      transition: filter 0.3s;
+      box-shadow: 0 6px 24px rgba(44,26,14,0.18);
+    }
+
+    /* Diagonal folds on body (V shape at bottom of flap area) */
+    .env-body::before,
+    .env-body::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+    }
+    .env-body::before {
+      left: 0;
+      border-width: 0 0 110px 170px;
+      border-color: transparent transparent #d4a074 transparent;
+    }
+    .env-body::after {
+      right: 0;
+      border-width: 0 170px 110px 0;
+      border-color: transparent #d4a074 transparent transparent;
+    }
+
+    /* Envelope flap — sits BEHIND the letter */
+    .env-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 340px;
+      height: 120px;
+      z-index: 1; /* behind letter */
+      transform-origin: top center;
+      transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
+      overflow: visible;
+    }
+    .env-flap svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* Letter — sits ON TOP of everything */
+    .letter-wrap {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      z-index: 10; /* above flap and envelope */
+      width: 290px;
+      transition: transform 0.8s cubic-bezier(0.34,1.2,0.64,1) 0.1s;
+    }
+
+    .letter-paper {
+      background: var(--paper);
+      border-radius: 4px;
+      padding: 1.4rem 1.6rem 1.8rem;
+      box-shadow: 0 -4px 20px rgba(44,26,14,0.12), 0 8px 30px rgba(44,26,14,0.18);
+      position: relative;
+    }
+    .letter-paper::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 18px; right: 18px;
+      height: 1px;
+      background: rgba(44,26,14,0.08);
+    }
+
+    .letter-line {
+      width: 80%;
+      height: 1px;
+      background: rgba(44,26,14,0.09);
+      margin: 0.55rem 0;
+    }
+
+    /* ── Open state ── */
+    .envelope-scene.open .env-flap {
+      transform: rotateX(180deg);
+    }
+    .envelope-scene.open .letter-wrap {
+      transform: translateX(-50%) translateY(-140px);
+    }
+
+    /* ───────── FULL LETTER OVERLAY ───────── */
+    .letter-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(44,26,14,0.55);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      padding: 1.5rem;
+    }
+    .letter-overlay.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .full-letter {
+      background: var(--paper);
+      max-width: 520px;
+      width: 100%;
+      border-radius: 8px;
+      padding: 3rem 3.2rem 3.5rem;
+      box-shadow: 0 30px 80px rgba(44,26,14,0.4);
+      position: relative;
+      transform: scale(0.85) translateY(30px);
+      transition: transform 0.5s cubic-bezier(0.34,1.2,0.64,1) 0.1s;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .letter-overlay.visible .full-letter {
+      transform: scale(1) translateY(0);
+    }
+
+    /* Ruled lines on letter */
+    .full-letter::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        transparent,
+        transparent 32px,
+        rgba(192,119,58,0.12) 32px,
+        rgba(192,119,58,0.12) 33px
+      );
+      background-position: 0 56px;
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    .full-letter h2 {
+      font-family: 'Caveat', cursive;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 1.6rem;
+      position: relative;
+    }
+
+    .full-letter p {
+      font-family: 'Caveat', cursive;
+      font-size: 1.35rem;
+      color: var(--ink);
+      line-height: 2.05rem;
+      margin-bottom: 1.1rem;
+      position: relative;
+    }
+
+    .full-letter .sign-off {
+      margin-top: 2rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--ink);
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--muted);
+      line-height: 1;
+      transition: color 0.2s, transform 0.2s;
+      z-index: 10;
+    }
+    .close-btn:hover { color: var(--ink); transform: scale(1.2); }
+
+    /* Writing animation */
+    .write-in {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .write-in.shown {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ───────── BACK BUTTON ───────── */
+    .back-btn {
+      position: fixed;
+      top: 1.2rem;
+      left: 1.4rem;
+      background: none;
+      border: none;
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      color: var(--muted);
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      opacity: 0;
+      transition: color 0.2s, opacity 0.5s ease;
+      pointer-events: none;
+    }
+    .back-btn.visible { opacity: 1; pointer-events: all; }
+    .back-btn:hover { color: var(--ink); }
+  </style>
+</head>
+<body>
+
+<div class="grain-overlay"></div>
+
+<!-- ═══ PAGE 1 ═══ -->
+<div class="page" id="page1">
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="p1-hey">Hey</div>
+    <div class="p1-from">— this comes from Paul</div>
+    <div class="p1-divider"></div>
+    <p class="p1-body">
+      Thank you so much for opening this link.<br>
+      I want to tell you something —<br>
+      click on the button below.
+    </p>
+    <button class="p1-btn" onclick="goToPage2()">Continue →</button>
+  </div>
+</div>
+
+<!-- ═══ PAGE 2 ═══ -->
+<div class="page hidden" id="page2">
+  <div class="p2-emoji">😢</div>
+  <div class="p2-hint">tap the envelope…</div>
+
+  <!-- Envelope scene -->
+  <div class="envelope-scene" id="envScene" onclick="openEnvelope()">
+    <!-- Flap (behind letter, z-index 1) -->
+    <div class="env-flap" id="envFlap">
+      <svg viewBox="0 0 340 120" preserveAspectRatio="none">
+        <polygon points="0,0 340,0 170,108" fill="#d4a96a"/>
+        <!-- subtle crease line -->
+        <line x1="0" y1="0" x2="170" y2="108" stroke="#c8944a" stroke-width="0.8" opacity="0.4"/>
+        <line x1="340" y1="0" x2="170" y2="108" stroke="#c8944a" stroke-width="0.8" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <!-- Envelope body -->
+    <div class="env-body"></div>
+
+    <!-- Letter peek (on top, z-index 10) -->
+    <div class="letter-wrap" id="letterWrap">
+      <div class="letter-paper">
+        <div class="letter-line"></div>
+        <div class="letter-line" style="width:60%"></div>
+        <div class="letter-line" style="width:70%"></div>
+        <div class="letter-line" style="width:50%"></div>
+        <div class="letter-line" style="width:65%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FULL LETTER OVERLAY ═══ -->
+<div class="letter-overlay" id="letterOverlay">
+  <div class="full-letter" id="fullLetter">
+    <button class="close-btn" onclick="closeLetter()">✕</button>
+
+    <h2 class="write-in" id="wl0">Dear Sis,</h2>
+
+    <p class="write-in" id="wl1">
+      I don't even know where to start, but I know I have to.
+      I'm so, so sorry for losing your money. There are no excuses —
+      I let you down, and that truth sits heavy on my chest every single day.
+    </p>
+
+    <p class="write-in" id="wl2">
+      You trusted me, and I didn't live up to that trust. I know
+      how hard you work and how much that meant to you. Knowing I'm
+      the reason it's gone makes me sick with guilt.
+    </p>
+
+    <p class="write-in" id="wl3">
+      I promise I will do everything in my power to make it right —
+      not just the money, but the trust. I want to earn that back,
+      however long it takes.
+    </p>
+
+    <p class="write-in" id="wl4">
+      Please forgive me. Not because I deserve it,
+      but because I love you and I'm truly, deeply sorry.
+    </p>
+
+    <div class="sign-off write-in" id="wl5">
+      With all my heart,<br>Paul 🙏
+    </div>
+  </div>
+</div>
+
+<button class="back-btn" id="backBtn" onclick="goToPage1()">← back</button>
+
+<script>
+  let envelopeOpened = false;
+
+  function goToPage2() {
+    document.getElementById('page1').classList.add('hidden');
+    document.getElementById('page2').classList.remove('hidden');
+    document.getElementById('backBtn').classList.add('visible');
+  }
+
+  function goToPage1() {
+    document.getElementById('page2').classList.add('hidden');
+    document.getElementById('page1').classList.remove('hidden');
+    document.getElementById('backBtn').classList.remove('visible');
+    // reset envelope
+    document.getElementById('envScene').classList.remove('open');
+    envelopeOpened = false;
+  }
+
+  function openEnvelope() {
+    if (envelopeOpened) return;
+    envelopeOpened = true;
+    document.getElementById('envScene').classList.add('open');
+
+    // After envelope animation, show full letter
+    setTimeout(() => {
+      document.getElementById('letterOverlay').classList.add('visible');
+      animateLetter();
+    }, 900);
+  }
+
+  function closeLetter() {
+    document.getElementById('letterOverlay').classList.remove('visible');
+    // reset write-in
+    document.querySelectorAll('.write-in').forEach(el => el.classList.remove('shown'));
+    // reset envelope too
+    setTimeout(() => {
+      document.getElementById('envScene').classList.remove('open');
+      envelopeOpened = false;
+    }, 500);
+  }
+
+  function animateLetter() {
+    const els = document.querySelectorAll('.write-in');
+    els.forEach((el, i) => {
+      setTimeout(() => el.classList.add('shown'), i * 350);
+    });
+  }
+</script>
+</body>
+</html>
